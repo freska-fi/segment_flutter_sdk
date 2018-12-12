@@ -10,9 +10,10 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 
 class SegmentFlutterSdkPlugin private constructor(val registrar: Registrar) : MethodCallHandler {
 
-  private var analytics: Analytics? = null
-
   companion object {
+
+    private var analytics: Analytics? = null
+
     @JvmStatic
     fun registerWith(registrar: Registrar) {
       val channel = MethodChannel(registrar.messenger(), "net.freska.fluttersegmentsdk/segment_flutter_sdk")
@@ -34,7 +35,9 @@ class SegmentFlutterSdkPlugin private constructor(val registrar: Registrar) : Me
     val arguments = call.arguments as Map<String, *>
     val writeKey = arguments["writeKey"] as String
     checkNotNull(writeKey) { "writeKey parameter is missing" }
-    analytics = Analytics.Builder(registrar.context(), writeKey).apply {
+    // If already initialised, use previous object. If not, initialise it now.
+    // This prevents crashing if flutter app is closed and opened again, as registrar activity will be recalled
+    analytics = analytics ?: Analytics.Builder(registrar.context(), writeKey).apply {
       // Add arguments if included to the builder
       (arguments["flushQueueSize"] as? Int)?.run { flushQueueSize(this) }
       // TODO add flushInterval
@@ -54,8 +57,9 @@ class SegmentFlutterSdkPlugin private constructor(val registrar: Registrar) : Me
       (arguments["trackApplicationLifecycleEvents"] as? Boolean)?.run { if (this) trackApplicationLifecycleEvents() }
       (arguments["recordScreenViews"] as? Boolean)?.run { if (this) recordScreenViews() }
       (arguments["trackAttributionInformation"] as? Boolean)?.run { if (this) trackAttributionInformation() }
-    }.build()
-    Analytics.setSingletonInstance(analytics)
+    }.build().also {
+      Analytics.setSingletonInstance(analytics)
+    }
     result.success(null)
   }
 
@@ -81,4 +85,5 @@ class SegmentFlutterSdkPlugin private constructor(val registrar: Registrar) : Me
     }
 
   }
+
 }
