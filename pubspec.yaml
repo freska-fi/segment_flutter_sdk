@@ -1,0 +1,17 @@
+name: segment_flutter_sdk
+description: A Flutter plugin that allows sending analytics events to https://segment.com
+version: 0.0.1
+author:
+homepage:
+
+environment:
+  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+flutter:
+  plugin:
+    androidPackage: net.freska.segmentfluttersdk
+    pluginClass: SegmentFlutterSdkPlugin
