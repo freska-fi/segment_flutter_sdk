@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
-enum LogLevel {
-  NONE, INFO, DEBUG, VERBOSE
-}
+enum LogLevel { NONE, INFO, DEBUG, VERBOSE }
 
 class FlutterSegmentSdk {
   static FlutterSegmentSdk _instance;
@@ -26,6 +24,7 @@ class FlutterSegmentSdk {
     bool trackApplicationLifecycleEvents,
     bool recordScreenViews,
     bool trackAttributionInformation,
+    bool useFirebaseAnalytics,
   }) async {
     if (_instance != null) {
       throw StateError("FlutterSegmentSdk already initialised");
@@ -58,6 +57,9 @@ class FlutterSegmentSdk {
     }
     if (trackAttributionInformation != null) {
       arguments["trackAttributionInformation"] = trackAttributionInformation;
+    }
+    if (useFirebaseAnalytics != null) {
+      arguments["firebaseAnalytics"] = useFirebaseAnalytics;
     }
 
     return await channel.invokeMethod("init", arguments).then((_) {

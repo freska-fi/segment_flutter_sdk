@@ -2,6 +2,7 @@ package net.freska.segmentfluttersdk
 
 import com.segment.analytics.Analytics
 import com.segment.analytics.Properties
+import com.segment.analytics.android.integrations.firebase.FirebaseIntegration
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -51,6 +52,7 @@ class SegmentFlutterSdkPlugin private constructor(val registrar: Registrar) : Me
           result.error("IllegalArgumentException", "Given $this LogLevel does not match: NONE, INFO, DEBUG or VERBOSE", null)
         }
       }
+      (arguments["firebaseAnalytics"] as? Boolean)?.run { if (this) use(FirebaseIntegration.FACTORY) }
       // TODO add networkExecutor
       // TODO add connectionFactory
       // TODO add crypto
