@@ -15,6 +15,7 @@ A Flutter plugin that allows sending analytics events to https:&#x2F;&#x2F;segme
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
+  s.dependency 'Analytics'
 
   s.ios.deployment_target = '8.0'
 end
