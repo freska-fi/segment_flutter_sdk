@@ -8,6 +8,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
+import java.util.*
 
 class SegmentFlutterSdkPlugin private constructor(val registrar: Registrar) : MethodCallHandler {
 
@@ -52,7 +53,6 @@ class SegmentFlutterSdkPlugin private constructor(val registrar: Registrar) : Me
           result.error("IllegalArgumentException", "Given $this LogLevel does not match: NONE, INFO, DEBUG or VERBOSE", null)
         }
       }
-      (arguments["firebaseAnalytics"] as? Boolean)?.run { if (this) use(FirebaseIntegration.FACTORY) }
       // TODO add networkExecutor
       // TODO add connectionFactory
       // TODO add crypto
