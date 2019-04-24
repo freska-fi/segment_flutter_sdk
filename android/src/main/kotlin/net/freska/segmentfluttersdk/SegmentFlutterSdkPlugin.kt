@@ -2,7 +2,6 @@ package net.freska.segmentfluttersdk
 
 import com.segment.analytics.Analytics
 import com.segment.analytics.Properties
-import com.segment.analytics.android.integrations.firebase.FirebaseIntegration
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
