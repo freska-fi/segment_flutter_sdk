@@ -42,6 +42,16 @@ class MyApp extends StatelessWidget {
                     child: const Text("Test trackEvent with properties"),
                     color: Colors.grey,
                     onPressed: () => _testTrackEventWithProperties("key", "value")),
+                MaterialButton(
+                  child: const Text("Test identify with ID"),
+                  color: Colors.grey,
+                  onPressed: () => _testIdentify('id'),
+                ),
+                MaterialButton(
+                  child: const Text("Test identify with null ID"),
+                  color: Colors.grey,
+                  onPressed: () => _testIdentify(null),
+                ),
               ],
             ),
           )),
@@ -72,5 +82,9 @@ class MyApp extends StatelessWidget {
       name: 'Demo event',
       properties: <String, String>{key: value},
     );
+  }
+
+  Future<void> _testIdentify(String userId) async {
+    await _segmentTracker.identify(userId: userId);
   }
 }

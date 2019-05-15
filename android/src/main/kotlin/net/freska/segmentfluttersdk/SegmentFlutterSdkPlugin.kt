@@ -2,6 +2,7 @@ package net.freska.segmentfluttersdk
 
 import com.segment.analytics.Analytics
 import com.segment.analytics.Properties
+import com.segment.analytics.Traits
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -22,13 +23,19 @@ class SegmentFlutterSdkPlugin private constructor(val registrar: Registrar) : Me
     }
   }
 
-  override fun onMethodCall(call: MethodCall, result: Result) {
-    when (call.method) {
-      "init" -> handleInitAnalytics(call, result)
-      "trackScreen" -> track(call, result) { arguments -> screen(arguments["name"] as String, extractProperties(arguments)) }
-      "trackEvent" -> track(call, result) { arguments -> track(arguments["name"] as String, extractProperties(arguments)) }
-      else -> result.notImplemented()
+  override fun onMethodCall(call: MethodCall, result: Result) = when (call.method) {
+    "init" -> handleInitAnalytics(call, result)
+    "identify" -> track(call, result) { arguments ->
+      val userId = arguments["userId"] as? String
+      if (userId.isNullOrEmpty()) {
+        reset()
+      } else {
+        identify(userId!!)
+      }
     }
+    "trackScreen" -> track(call, result) { arguments -> screen(arguments["name"] as String, extractProperties(arguments)) }
+    "trackEvent" -> track(call, result) { arguments -> track(arguments["name"] as String, extractProperties(arguments)) }
+    else -> result.notImplemented()
   }
 
   @Suppress("UNCHECKED_CAST")

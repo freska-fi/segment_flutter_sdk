@@ -13,6 +13,8 @@ public class SwiftSegmentFlutterSdkPlugin: NSObject, FlutterPlugin {
     switch call.method {
     case "init":
       handleInitAnalytics(call: call, result: result)
+    case "identify":
+      handleIdentify(call: call, result: result)
     case "trackScreen":
       handleTrackScreen(call: call, result: result)
     case "trackEvent":
@@ -49,6 +51,22 @@ public class SwiftSegmentFlutterSdkPlugin: NSObject, FlutterPlugin {
 
     if let logLevel = args["logLevel"] as? String {
       SEGAnalytics.debug(logLevel != "NONE")
+    }
+
+    result(nil)
+  }
+
+  private func handleIdentify(call: FlutterMethodCall, result: @escaping FlutterResult) {
+    guard let args = call.arguments as? [String: Any] else {
+      result(FlutterError(code: "ERROR", message: "Arguments are missing", details: nil))
+      return
+    }
+    
+    let userId = args["userId"] as? String
+    if (userId != nil) {
+      SEGAnalytics.shared().identify(userId)
+    } else {
+      SEGAnalytics.shared().reset()
     }
 
     result(nil)

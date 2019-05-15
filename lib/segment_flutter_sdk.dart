@@ -91,4 +91,12 @@ class FlutterSegmentSdk {
       "properties": properties,
     });
   }
+
+  /// Identifies the user in Segment using given user [userId]. [userId] can be null to clear the identity of the user
+  /// for example, when login out.
+  Future<void> identify({@required String userId}) async {
+    await _channel.invokeMethod("identify", <String, dynamic>{
+      "userId": userId,
+    });
+  }
 }
