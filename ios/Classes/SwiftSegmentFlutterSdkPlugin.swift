@@ -19,6 +19,12 @@ public class SwiftSegmentFlutterSdkPlugin: NSObject, FlutterPlugin {
       handleTrackScreen(call: call, result: result)
     case "trackEvent":
       handleTrackEvent(call: call, result: result)
+    case "enable":
+      handleEnable(result: result)
+    case "disable":
+      handleDisable(result: result)
+    case "reset":
+      handleReset(result: result)
     default:
       result(FlutterMethodNotImplemented)
     }
@@ -105,5 +111,19 @@ public class SwiftSegmentFlutterSdkPlugin: NSObject, FlutterPlugin {
     }
     result(nil)
   }
+  
+  private func handleEnable(result: @escaping FlutterResult) {
+    SEGAnalytics.shared()?.enable()
+    result(nil)
+  }
+  
+  private func handleDisable(result: @escaping FlutterResult) {
+    SEGAnalytics.shared()?.disable()
+    result(nil)
+  }
 
+  private func handleReset(result: @escaping FlutterResult) {
+    SEGAnalytics.shared()?.reset()
+    result(nil)
+  }
 }

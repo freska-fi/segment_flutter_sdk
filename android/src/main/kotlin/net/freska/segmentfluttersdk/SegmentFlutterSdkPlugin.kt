@@ -35,7 +35,28 @@ class SegmentFlutterSdkPlugin private constructor(val registrar: Registrar) : Me
     }
     "trackScreen" -> track(call, result) { arguments -> screen(arguments["name"] as String, extractProperties(arguments)) }
     "trackEvent" -> track(call, result) { arguments -> track(arguments["name"] as String, extractProperties(arguments)) }
+    "enable" -> enable()
+    "disable" -> disable()
+    "reset" -> reset()
     else -> result.notImplemented()
+  }
+
+  private fun enable() {
+    analytics.whenNotNull({
+      optOut(false)
+    })
+  }
+
+  private fun disable() {
+    analytics.whenNotNull({
+      optOut(true)
+    })
+  }
+
+  private fun reset() {
+    analytics.whenNotNull({
+      reset()
+    })
   }
 
   @Suppress("UNCHECKED_CAST")

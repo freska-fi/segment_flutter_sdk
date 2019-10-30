@@ -99,4 +99,13 @@ class FlutterSegmentSdk {
       "userId": userId,
     });
   }
+
+  /// Enabled Segment SDK to continue sending analytics events
+  Future<void> enable() async => await _channel.invokeMethod("enable");
+
+  /// Disables Segment SDK to stop sending analytics events
+  Future<void> disable() async => await _channel.invokeMethod("disable");
+
+  /// Resets Segment SDK
+  Future<void> reset() async => await _channel.invokeMethod("reset");
 }
