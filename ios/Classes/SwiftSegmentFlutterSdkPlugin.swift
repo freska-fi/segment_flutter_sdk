@@ -64,9 +64,9 @@ public class SwiftSegmentFlutterSdkPlugin: NSObject, FlutterPlugin {
     
     let userId = args["userId"] as? String
     if (userId != nil) {
-      SEGAnalytics.shared().identify(userId)
+      SEGAnalytics.shared()?.identify(userId)
     } else {
-      SEGAnalytics.shared().reset()
+      SEGAnalytics.shared()?.reset()
     }
 
     result(nil)
@@ -82,9 +82,9 @@ public class SwiftSegmentFlutterSdkPlugin: NSObject, FlutterPlugin {
       return
     }
     if let properties = args["properties"] as? [String: Any] {
-      SEGAnalytics.shared().track(name, properties: properties)
+      SEGAnalytics.shared()?.track(name, properties: properties)
     } else {
-      SEGAnalytics.shared().track(name)
+      SEGAnalytics.shared()?.track(name)
     }
     result(nil)
   }
@@ -99,9 +99,9 @@ public class SwiftSegmentFlutterSdkPlugin: NSObject, FlutterPlugin {
       return
     }
     if let properties = args["properties"] as? [String: Any] {
-      SEGAnalytics.shared().screen(name, properties: properties)
+      SEGAnalytics.shared()?.screen(name, properties: properties)
     } else {
-      SEGAnalytics.shared().screen(name)
+      SEGAnalytics.shared()?.screen(name)
     }
     result(nil)
   }
