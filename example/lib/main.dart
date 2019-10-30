@@ -52,6 +52,21 @@ class MyApp extends StatelessWidget {
                   color: Colors.grey,
                   onPressed: () => _testIdentify(null),
                 ),
+                MaterialButton(
+                  child: const Text("Test disable"),
+                  color: Colors.grey,
+                  onPressed: () => _testEnableDisable(enable: false),
+                ),
+                MaterialButton(
+                  child: const Text("Test enable"),
+                  color: Colors.grey,
+                  onPressed: () => _testEnableDisable(enable: true),
+                ),
+                MaterialButton(
+                  child: const Text("Test reset"),
+                  color: Colors.grey,
+                  onPressed: () => _testReset(),
+                ),
               ],
             ),
           )),
@@ -86,5 +101,17 @@ class MyApp extends StatelessWidget {
 
   Future<void> _testIdentify(String userId) async {
     await _segmentTracker.identify(userId: userId);
+  }
+
+  Future<void> _testEnableDisable({@required bool enable}) async {
+    if (enable) {
+      await _segmentTracker.enable();
+    } else {
+      await _segmentTracker.disable();
+    }
+  }
+
+  Future<void> _testReset() async {
+    await _segmentTracker.reset();
   }
 }
