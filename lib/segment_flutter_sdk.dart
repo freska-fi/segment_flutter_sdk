@@ -30,9 +30,11 @@ class FlutterSegmentSdk {
       throw StateError("FlutterSegmentSdk already initialised");
     }
     if (writeKey == null || writeKey.isEmpty) {
-      throw ArgumentError.value(writeKey, "writeKey", "WriteKey parameter is required");
+      throw ArgumentError.value(
+          writeKey, "writeKey", "WriteKey parameter is required");
     }
-    final channel = const MethodChannel("net.freska.fluttersegmentsdk/segment_flutter_sdk");
+    final channel =
+        const MethodChannel("net.freska.fluttersegmentsdk/segment_flutter_sdk");
     final arguments = <String, dynamic>{
       "writeKey": writeKey,
     };
@@ -50,7 +52,8 @@ class FlutterSegmentSdk {
       arguments["logLevel"] = logLevel.toString().split('.')[1];
     }
     if (trackApplicationLifecycleEvents != null) {
-      arguments["trackApplicationLifecycleEvents"] = trackApplicationLifecycleEvents;
+      arguments["trackApplicationLifecycleEvents"] =
+          trackApplicationLifecycleEvents;
     }
     if (recordScreenViews != null) {
       arguments["recordScreenViews"] = recordScreenViews;
@@ -69,7 +72,8 @@ class FlutterSegmentSdk {
   }
 
   /// Logs a screen in segment with the given [name] and extra [properties].
-  Future<void> trackScreen({@required String name, Map<String, dynamic> properties}) async {
+  Future<void> trackScreen(
+      {@required String name, Map<String, dynamic> properties}) async {
     if (name == null || name.isEmpty) {
       throw ArgumentError.value(name, "name", "Screen name is required");
     }
@@ -81,7 +85,8 @@ class FlutterSegmentSdk {
   }
 
   /// Logs a event in segment with the given [name] and extra [properties].
-  Future<void> trackEvent({@required String name, Map<String, dynamic> properties}) async {
+  Future<void> trackEvent(
+      {@required String name, Map<String, dynamic> properties}) async {
     if (name == null || name.isEmpty) {
       throw ArgumentError.value(name, "name", "Event name is required");
     }
