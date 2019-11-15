@@ -8,9 +8,8 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
-import java.util.*
 
-class SegmentFlutterSdkPlugin private constructor(val registrar: Registrar) : MethodCallHandler {
+class SegmentFlutterSdkPlugin private constructor(private val registrar: Registrar) : MethodCallHandler {
 
   companion object {
 
@@ -30,7 +29,7 @@ class SegmentFlutterSdkPlugin private constructor(val registrar: Registrar) : Me
       if (userId.isNullOrEmpty()) {
         reset()
       } else {
-        identify(userId!!)
+        identify(userId, extractTraits(arguments), null)
       }
     }
     "trackScreen" -> track(call, result) { arguments -> screen(arguments["name"] as String, extractProperties(arguments)) }
@@ -62,7 +61,7 @@ class SegmentFlutterSdkPlugin private constructor(val registrar: Registrar) : Me
   @Suppress("UNCHECKED_CAST")
   private fun handleInitAnalytics(call: MethodCall, result: Result) {
     val arguments = call.arguments as Map<String, *>
-    val writeKey = arguments["writeKey"] as String
+    val writeKey = arguments["writeKey"] as? String
     checkNotNull(writeKey) { "writeKey parameter is missing" }
     // If already initialised, use previous object. If not, initialise it now.
     // This prevents crashing if flutter app is closed and opened again, as registrar activity will be recalled
@@ -90,6 +89,26 @@ class SegmentFlutterSdkPlugin private constructor(val registrar: Registrar) : Me
       Analytics.setSingletonInstance(analytics)
     }
     result.success(null)
+  }
+
+  @Suppress("UNCHECKED_CAST")
+  private fun extractTraits(arguments: Map<String, *>): Traits {
+    return Traits().apply {
+      (arguments["traits"] as? Map<String, *>)?.forEach { mapEntry ->
+        mapEntry.value?.let { value ->
+          when (mapEntry.key) {
+            "address" -> {
+              putAddress(Traits.Address().apply {
+                (value as? Map<String, *>)?.forEach { addressKeyValue ->
+                  put(addressKeyValue.key, addressKeyValue.value)
+                }
+              })
+            }
+            else -> put(mapEntry.key, value)
+          }
+        }
+      }
+    }
   }
 
   @Suppress("UNCHECKED_CAST")

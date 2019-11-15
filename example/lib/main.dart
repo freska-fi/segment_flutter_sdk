@@ -48,6 +48,20 @@ class MyApp extends StatelessWidget {
                   onPressed: () => _testIdentify('id'),
                 ),
                 MaterialButton(
+                  child: const Text("Test identify with Traits"),
+                  color: Colors.grey,
+                  onPressed: () => _testIdentify(
+                    'id',
+                    traits: {
+                      "email": "example@example.org",
+                      "phone": "+1 12241 12412",
+                      "address": {
+                        "city": "helsinki",
+                      }
+                    },
+                  ),
+                ),
+                MaterialButton(
                   child: const Text("Test identify with null ID"),
                   color: Colors.grey,
                   onPressed: () => _testIdentify(null),
@@ -99,8 +113,8 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  Future<void> _testIdentify(String userId) async {
-    await _segmentTracker.identify(userId: userId);
+  Future<void> _testIdentify(String userId, {Map<String, dynamic> traits}) async {
+    await _segmentTracker.identify(userId: userId, traits: traits);
   }
 
   Future<void> _testEnableDisable({@required bool enable}) async {

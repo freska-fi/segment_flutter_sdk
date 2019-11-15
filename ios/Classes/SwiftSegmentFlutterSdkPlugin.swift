@@ -68,9 +68,8 @@ public class SwiftSegmentFlutterSdkPlugin: NSObject, FlutterPlugin {
       return
     }
     
-    let userId = args["userId"] as? String
-    if (userId != nil) {
-      SEGAnalytics.shared()?.identify(userId)
+    if let userId = args["userId"] as? String {
+      SEGAnalytics.shared()?.identify(userId, traits: args["traits"] as? [String: Any])
     } else {
       SEGAnalytics.shared()?.reset()
     }
