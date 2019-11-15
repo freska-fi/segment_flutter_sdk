@@ -1,6 +1,6 @@
 name: segment_flutter_sdk
 description: A Flutter plugin that allows sending analytics events to https://segment.com
-version: 1.0.0+1
+version: 1.1.0
 author: Jon Duran <jonyas@gmail.com>
 homepage: https://github.com/freska-fi/segment_flutter_sdk
 
