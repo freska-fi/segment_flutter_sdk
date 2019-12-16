@@ -32,3 +32,4 @@ GeneratedPluginRegistrant.java
 build/
 .flutter-plugins
 flutter_export_environment.sh
+.flutter-plugins-dependencies
