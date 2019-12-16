@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:segment_flutter_sdk/segment_flutter_sdk.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   final segmentTracker = await FlutterSegmentSdk.init(writeKey: "YOUR WRITE KEY HERE", logLevel: LogLevel.VERBOSE);
   runApp(MyApp(segmentTracker));
 }
